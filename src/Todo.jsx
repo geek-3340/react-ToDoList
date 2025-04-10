@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './style.css';
 
-export default function Todo() {
+const Todo = () => {
   const [todoText, setTodoText] = useState('');
   const [incompleteTodos, setIncompleteTodos] = useState([
     'TODOです1',
@@ -60,4 +60,6 @@ export default function Todo() {
       </div>
     </>
   );
-}
+};
+
+export default Todo;
