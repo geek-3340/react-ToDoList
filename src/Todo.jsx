@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './style.css';
 
 const Todo = () => {
+  
   const [todoText, setTodoText] = useState('');
   const [incompleteTodos, setIncompleteTodos] = useState([
     'TODOです1',
