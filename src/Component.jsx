@@ -1,40 +1,75 @@
-import "./style.css";
+import { useState } from 'react';
+import './style.css';
 
-export const Component=()=>{
+export const Component = () => {
+
+  // inputの値をstateで管理する
+  const [todoText, setTodoText] = useState('');
+
+  // 未完了のTODOをstateで管理する
+  const [incompleteTodos, setIncompleteTodos] = useState([
+    'TODOです1',
+    'TODOです2',
+  ]);
+
+  // 完了のTODOをstateで管理する
+  const [completeTodos, setCompleteTodos] = useState([
+    'TODOでした1',
+    'TODOでした2',
+  ]);
+
+  // input入力された値をstateに更新する関数
+  const onChangeTodoText = (e) => setTodoText(e.target.value);
+
+  // ボタンがクリックされたら時に呼ばれる関数
+  const onClickAdd = () => {
+    // inputの値が空の時は何もしない
+    if (todoText === '') return;
+    // input値を未完了のTODOに追加する
+    const newTodos = [...incompleteTodos, todoText];
+    // 未完了のTODOのstateを更新する
+    setIncompleteTodos(newTodos);
+    // inputの値を空にする
+    setTodoText('');
+  };
+
   return (
     <>
-      <div>
-        <input placeholder="TODOを入力" />
-        <button>追加</button>
+      <div className="input-area">
+        <input
+          placeholder="TODOを入力"
+          value={todoText}
+          onChange={onChangeTodoText}
+        />
+        <button onClick={onClickAdd}>追加</button>
       </div>
-      <div>
-        <p>未完了のTODO</p>
+      <div className="incomplete-area">
+        <p className="title">未完了のTODO</p>
         <ul>
-          <li>
-            <p>TODOです</p>
-            <button>完了</button>
-            <button>削除</button>
-          </li>
-          <li>
-            <p>TODOです</p>
-            <button>完了</button>
-            <button>削除</button>
-          </li>
+          {incompleteTodos.map((todo) => (
+            <li key={todo}>
+              <div className="list-row">
+                <p className="todo-item">{todo}</p>
+                <button>完了</button>
+                <button>削除</button>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
-      <div>
-        <p>完了のTODO</p>
+      <div className="complete-area">
+        <p className="title">完了のTODO</p>
         <ul>
-          <li>
-            <p>TODOでした</p>
-            <button>戻す</button>
-          </li>
-          <li>
-            <p>TODOでした</p>
-            <button>戻す</button>
-          </li>
+          {completeTodos.map((todo) => (
+            <li key={todo}>
+              <div className="list-row">
+                <p className="todo-item">{todo}</p>
+                <button>戻す</button>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </>
-  )
+  );
 };
