@@ -1,25 +1,42 @@
 import { useState } from 'react';
 import './style.css';
 
-const Todo = () => {
-  
+export const Component = () => {
   const [todoText, setTodoText] = useState('');
-  const [incompleteTodos, setIncompleteTodos] = useState([
-    'TODOです1',
-    'TODOです2',
-  ]);
-  const [completeTodos, setCompleteTodos] = useState([
-    'TODOでした1',
-    'TODOでした2',
-  ]);
 
-  const onChangeTodoText = (event) => setTodoText(event.target.value);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+
+  const [completeTodos, setCompleteTodos] = useState([]);
+
+  const onChangeTodoText = (e) => setTodoText(e.target.value);
 
   const onClickAdd = () => {
     if (todoText === '') return;
     const newTodos = [...incompleteTodos, todoText];
     setIncompleteTodos(newTodos);
     setTodoText('');
+  };
+
+  const onClickDelete = (index) => {
+    const newTodos=[...incompleteTodos];
+    newTodos.splice(index,1);
+    setIncompleteTodos(newTodos);
+  };
+
+  const onClickComplete = (index) => {
+    const newTodos=[...incompleteTodos];
+    newTodos.splice(index,1);
+    const newCompleteTodos=[...completeTodos,incompleteTodos[index]];
+    setIncompleteTodos(newTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
+
+  const onClickBack = (index) => {
+    const newTodos=[...completeTodos];
+    newTodos.splice(index,1);
+    const newIncompleteTodos=[...incompleteTodos,completeTodos[index]];
+    setCompleteTodos(newTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   return (
@@ -35,12 +52,12 @@ const Todo = () => {
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          {incompleteTodos.map((todo) => (
+          {incompleteTodos.map((todo, index) => (
             <li key={todo}>
               <div className="list-row">
                 <p className="todo-item">{todo}</p>
-                <button>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
+                <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             </li>
           ))}
@@ -49,11 +66,11 @@ const Todo = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => (
+          {completeTodos.map((todo, index) => (
             <li key={todo}>
               <div className="list-row">
                 <p className="todo-item">{todo}</p>
-                <button>戻す</button>
+                <button onClick={()=>{onClickBack(index)}}>戻す</button>
               </div>
             </li>
           ))}
@@ -62,5 +79,3 @@ const Todo = () => {
     </>
   );
 };
-
-export default Todo;
