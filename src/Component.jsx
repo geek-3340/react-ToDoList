@@ -20,6 +20,7 @@ export const Component = () => {
     if (todoText === '') return;
     // input値を未完了のTODOに追加する
     const newTodos = [...incompleteTodos, todoText];
+    
     // 未完了のTODOのstateを更新する
     setIncompleteTodos(newTodos);
     // inputの値を空にする
